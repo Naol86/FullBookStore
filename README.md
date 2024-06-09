@@ -1,6 +1,6 @@
 # Book Store
 
-Resource Store for Adama scince and Technology University students
+Student Resource Store for Adama scince and Technology University students
 
 ## Authors
 
