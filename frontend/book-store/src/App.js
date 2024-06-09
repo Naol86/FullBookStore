@@ -22,14 +22,15 @@ function App() {
   return (
     <div>
       <Routes>
+         <Route
+          path='/admin/create-school/:school_id?'
+          element={<RootLayout children={<School />} />}
+        />
         <Route
           path='/admin/create-books'
           element={<RootLayout children={<Upload />} />}
         />
-        <Route
-          path='/admin/create-school/:school_id?'
-          element={<RootLayout children={<School />} />}
-        />
+        
         <Route
           path='/admin/create-department/:department_id?'
           element={<RootLayout children={<Department />} />}
@@ -52,14 +53,15 @@ function App() {
           path='/admin/course'
           element={<RootLayout children={<ListCourse />} />}
         />
+	<Route
+          path='/admin/department'
+          element={<RootLayout children={<ListDepartment />} />}
+        />
         <Route
           path='/admin/school'
           element={<RootLayout children={<ListSchool />} />}
         />
-        <Route
-          path='/admin/department'
-          element={<RootLayout children={<ListDepartment />} />}
-        />
+        
 
         {/* <Route path="/" element={<RootLayout children={<ListBooks />} />} /> */}
         <Route
