@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 // import App from './App';
-import { Department } from "./components";
+import { Upload } from "./components";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -10,8 +10,9 @@ root.render(
   <React.StrictMode>
     {/* <App /> */}
     {/* <Books /> */}
+    <Upload />
     {/* <School /> */}
-    <Department />
+    {/* <Department /> */}
   </React.StrictMode>
 );
 

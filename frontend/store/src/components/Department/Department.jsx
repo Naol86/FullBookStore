@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import "./style.css"; // Import the CSS file
 
 function Department() {
   const [id, setId] = useState(0);
   const [name, setName] = useState("");
-  const [schools, setSchools] = useState([]);
   const [description, setDescription] = useState("");
+  const [schools, setSchools] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const api = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -24,23 +27,51 @@ function Department() {
     fetchSchools();
   }, [api]);
 
-  function handleSchoolChange(e) {
-    console.log(e);
+  const handleSchoolChange = (e) => {
     setId(e.target.value);
-  }
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!name) newErrors.name = "Department name is required";
+    if (!id || id === "0") newErrors.school = "Please select a school";
+    if (!description) newErrors.description = "Description is required";
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(name);
-    console.log(id);
-    console.log(description);
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitted(false); // Reset the submission status if there are errors
+    } else {
+      // Clear the form or make the API call here
+      console.log("Name:", name);
+      console.log("School ID:", id);
+      console.log("Description:", description);
+      const response = await fetch(`${api}/department/${id}`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ name, description }),
+      });
+      console.log(response);
+      setErrors({});
+      setIsSubmitted(true); // Set submission status to true
+    }
   };
 
   return (
-    <div>
-      here we go
+    <div className="department-container">
+      <h1>Department Form</h1>
+      {isSubmitted && (
+        <p className="success-message">Submitted successfully!</p>
+      )}
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
+          <label htmlFor="school">School</label>
           <select
             name="school"
             id="school--id"
@@ -54,16 +85,33 @@ function Department() {
               </option>
             ))}
           </select>
+          {errors.school && <p className="error-message">{errors.school}</p>}
         </div>
-        <div>
-          <label htmlFor="department">Department</label>
-          <input type="text" onChange={(e) => setName(e.target.value)} />
+        <div className="form-group">
+          <label htmlFor="department">Department Name</label>
+          <input
+            type="text"
+            id="department"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+          {errors.name && <p className="error-message">{errors.name}</p>}
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="description">Description</label>
-          <input type="text" onChange={(e) => setDescription(e.target.value)} />
+          <input
+            type="text"
+            id="description"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+          />
+          {errors.description && (
+            <p className="error-message">{errors.description}</p>
+          )}
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" className="submit-button">
+          Submit
+        </button>
       </form>
     </div>
   );
