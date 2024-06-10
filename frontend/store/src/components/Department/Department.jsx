@@ -4,6 +4,7 @@ function Department() {
   const [id, setId] = useState(0);
   const [name, setName] = useState("");
   const [schools, setSchools] = useState([]);
+  const [description, setDescription] = useState("");
   const api = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -32,27 +33,36 @@ function Department() {
     e.preventDefault();
     console.log(name);
     console.log(id);
+    console.log(description);
   };
 
   return (
     <div>
       here we go
       <form onSubmit={handleSubmit}>
-        <select
-          name="school"
-          id="school--id"
-          onChange={handleSchoolChange}
-          value={id}
-        >
-          <option value="0">Select a school</option>
-          {schools.map((school) => (
-            <option key={school.ID} value={school.ID}>
-              {school.name}
-            </option>
-          ))}
-        </select>
-        <label htmlFor="department">Department</label>
-        <input type="text" onChange={(e) => setName(e.target.value)} />
+        <div>
+          <select
+            name="school"
+            id="school--id"
+            onChange={handleSchoolChange}
+            value={id}
+          >
+            <option value="0">Select a school</option>
+            {schools.map((school) => (
+              <option key={school.ID} value={school.ID}>
+                {school.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="department">Department</label>
+          <input type="text" onChange={(e) => setName(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="description">Description</label>
+          <input type="text" onChange={(e) => setDescription(e.target.value)} />
+        </div>
         <button type="submit">Submit</button>
       </form>
     </div>
