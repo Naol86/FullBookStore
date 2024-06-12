@@ -124,6 +124,12 @@ func CreateDepartment(c *fiber.Ctx) error {
 	return c.JSON(department)
 }
 
+func GetAllDepartment(c *fiber.Ctx) error {
+	var department []Department
+	DB.Find(&department)
+	return c.JSON(department)
+}
+
 func GetDepartments(c *fiber.Ctx) error {
 	Did := c.Params("school_id")
 	d_id, err := strconv.ParseUint(Did, 10, 64)
@@ -164,6 +170,17 @@ func CreateCourse(c *fiber.Ctx) error {
 	course.Save()
 	return c.JSON(course)
 
+}
+
+func GetCourses(c *fiber.Ctx) error {
+	var courses []Course
+	result := DB.Find(&courses)
+	if result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to retrieve courses",
+	})
+	}
+	return c.JSON(courses)
 }
 
 func GetAllCourse(c *fiber.Ctx) error {

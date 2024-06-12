@@ -16,11 +16,13 @@ func Routes(app *fiber.App) {
 	// department routes
 	app.Post("/department/:school_id", models.CreateDepartment)
 	app.Get("/department/:school_id", models.GetDepartments)
+	app.Get("/department", models.GetAllDepartment)
 	app.Delete("/department/:department_id", models.DeleteDepartment)
 
 	// course routes
 	app.Post("/course/:department_id", models.CreateCourse)
 	app.Get("/course/:department_id", models.GetAllCourse)
+	app.Get("/course", models.GetCourses)
 	app.Delete("/course/:course_id", models.DeleteCourse)
 
 	// book routes
