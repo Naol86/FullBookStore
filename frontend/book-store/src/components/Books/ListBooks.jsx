@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import "./style.css";
+import SUPABASE from "../supabase";
 
 function ListBooks() {
   const [books, setBooks] = useState([]);
   const api = process.env.REACT_APP_API_URL;
+
+  const supabase = SUPABASE;
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -16,6 +19,7 @@ function ListBooks() {
 
   const handleDelete = (e) => {
     const bookId = e.target.value;
+    const fileName = books.filter((book) => book.ID === Number(bookId))[0].name;
     const deleteBook = async () => {
       const response = await fetch(`${api}/books/${bookId}`, {
         method: "DELETE",
@@ -25,7 +29,10 @@ function ListBooks() {
           (book) => (book.ID !== bookId) & (book.ID !== Number(bookId))
         );
         setBooks(newBooks);
-        console.log(books);
+
+        const { data, error } = await supabase.storage
+          .from("booksrote")
+          .remove([`${fileName}`]);
       }
     };
     deleteBook();

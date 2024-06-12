@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
-const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import SUPABASE from "../supabase";
 
 function Upload() {
+  const supabase = SUPABASE;
   const [formData, setFormData] = useState({
     schools: [],
     departments: [],
