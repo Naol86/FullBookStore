@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import School from "./School";
 
 function ListSchool() {
   const [schools, setSchools] = useState([]);

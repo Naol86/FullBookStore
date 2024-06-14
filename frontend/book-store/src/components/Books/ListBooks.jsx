@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import "./style.css";
 import SUPABASE from "../supabase";
+import BookCard from "./BookCard";
 
 function ListBooks() {
   const [books, setBooks] = useState([]);
@@ -39,40 +39,21 @@ function ListBooks() {
   };
 
   return (
-    <div className="department-container">
-      <h1>Books</h1>
-      <ul className="book-list">
-        {books.map((book) => (
-          <li key={book.ID} className="book-item">
-            <div className="book-view">
-              <div className="book-logo">
-                <img src={book.image} alt={book.name} />
-              </div>
-              <div className="book-info">
-                <h2>{book.name}</h2>
-                <p>{book.description}</p>
-                <p>{book.author}</p>
-                <button className="download-btn">
-                  <a
-                    href={book.file}
-                    download={`${book.name}.pdf`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    download
-                  </a>
-                </button>
-              </div>
-              <div>
-                <button value={book.ID}>edit</button>
-                <button value={book.ID} onClick={handleDelete}>
-                  delete
-                </button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="container-md  p-3 m-2 max-w-lg mx-auto border-gray-100	border-solid	border-2 rounded-lg	shadow-xl	">
+      <h1 className="mt-3 text-2xl font-bold text-gray-800 text-center">
+        Books
+      </h1>
+      {books.map((book) => (
+        <BookCard book={book} handleDelete={handleDelete} key={book.ID} />
+      ))}
+      <div className="flex justify-center	my-3">
+        <span className="inline-flex items-center rounded-md bg-gray-100 px-2 mx-1 py-1 text-l font-semibold text-gray-900 ring-2 ring-inset ring-gray-700/10">
+          Previous
+        </span>
+        <span className="inline-flex items-center rounded-md bg-gray-100 px-2 mx-1 py-1 text-l font-semibold text-gray-900 ring-2 ring-inset ring-gray-700/10">
+          Next
+        </span>
+      </div>
     </div>
   );
 }
