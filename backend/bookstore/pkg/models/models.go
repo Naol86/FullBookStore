@@ -243,7 +243,7 @@ func GetBooks(c *fiber.Ctx) error {
 	var books []Books
 	// DB.Order("RANDOM()").Limit(5).Find(&books)
 	// return c.JSON(books)
-	result := DB.Order("RAND()").Limit(5).Find(&books)
+	result := DB.Order("RAND()").Limit(10).Find(&books)
     if result.Error != nil {
         return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
             "error": "Failed to retrieve books",

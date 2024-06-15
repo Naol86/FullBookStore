@@ -11,7 +11,7 @@ function NavBar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
+      if (window.scrollY > 200) {
         setIsFixed(true);
       } else {
         setIsFixed(false);
@@ -89,7 +89,7 @@ function NavBar() {
               <input
                 type="text"
                 id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-10/12 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search..."
               />
             </div>
@@ -180,11 +180,6 @@ function NavBar() {
           </div>
         </div>
       </nav>
-      <div className="mt-4">
-        {Array.from({ length: 100 }).map((_, i) => (
-          <h1 key={i}>hello</h1>
-        ))}
-      </div>
     </div>
   );
 }

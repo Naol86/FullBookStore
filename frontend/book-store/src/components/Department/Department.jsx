@@ -56,7 +56,8 @@ function Department() {
         },
         body: JSON.stringify({ name, description }),
       });
-      console.log(response);
+      setName("");
+      setDescription("");
       setErrors({});
       setIsSubmitted(true); // Set submission status to true
     }

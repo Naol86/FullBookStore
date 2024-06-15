@@ -12,6 +12,8 @@ function Upload() {
     selectedDepartment: "0",
     selectedCourse: "0",
     file: null,
+    image:
+      "https://cdn.pixabay.com/photo/2023/03/17/14/26/bear-7858736_960_720.jpg",
     description: "",
     author: "",
   });
@@ -170,6 +172,7 @@ function Upload() {
                 description: formData.description,
                 file: signedUrlData.signedUrl,
                 author: formData.author,
+                image: formData.image,
               }),
             }
           );
@@ -363,6 +366,25 @@ function Upload() {
             {errors.author && (
               <p className="text-red-600 font-bold text-lg">{errors.author}</p>
             )}
+          </div>
+
+          <div className="my-4">
+            <label
+              className="block text-gray-700 text-lg font-bold mb-2"
+              htmlFor="image"
+            >
+              Image URL
+            </label>
+
+            <input
+              type="text"
+              name="image"
+              id="image"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
+              placeholder="author"
+              value={formData.image}
+              onChange={handleChange}
+            />
           </div>
 
           <button
