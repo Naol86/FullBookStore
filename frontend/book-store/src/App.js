@@ -13,44 +13,52 @@ import ListCourse from "./components/Course/ListCourse";
 import ListSchool from "./components/School/ListSchool";
 import ListDepartment from "./components/Department/ListDepartment";
 import "./App.css";
+import UserLayout from "./components/UserLayout/UserLayout";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route
-          path="/create-books"
+          path="/admin/create-books"
           element={<RootLayout children={<Upload />} />}
         />
         <Route
-          path="/create-school"
+          path="/admin/create-school"
           element={<RootLayout children={<School />} />}
         />
         <Route
-          path="/create-department"
+          path="/admin/create-department"
           element={<RootLayout children={<Department />} />}
         />
         <Route
-          path="/create-course"
+          path="/admin/create-course"
           element={<RootLayout children={<Course />} />}
         />
 
         <Route
-          path="/books"
+          path="/admin"
+          element={<RootLayout children={<ListBooks />} />}
+        />
+
+        <Route
+          path="/admin/books"
           element={<RootLayout children={<ListBooks />} />}
         />
         <Route
-          path="/course"
+          path="/admin/course"
           element={<RootLayout children={<ListCourse />} />}
         />
         <Route
-          path="/school"
+          path="/admin/school"
           element={<RootLayout children={<ListSchool />} />}
         />
         <Route
-          path="/department"
+          path="/admin/department"
           element={<RootLayout children={<ListDepartment />} />}
         />
+
+        <Route path="/" element={<UserLayout />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

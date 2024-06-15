@@ -30,30 +30,48 @@ function ListDepartment() {
   };
 
   return (
-    <div className="department-container">
-      <h1>department</h1>
-      <ul className="book-list">
+    <>
+      <div className="p-3 m-2 max-w-lg mx-auto border-gray-100	border-solid	border-2 rounded-lg	shadow-xl	">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-900 text-center">
+          Department
+        </h1>
         {department.map((dep) => (
-          <li key={dep.ID} className="book-item">
-            <div className="book-view">
-              <div className="book-logo">
-                <img src="" alt={dep.name} />
-              </div>
-              <div className="book-info">
-                <h2>{dep.name}</h2>
-                <p>{dep.description}</p>
-              </div>
-              <div>
-                <button value={dep.ID}>edit</button>
-                <button value={dep.ID} onClick={handleDelete}>
-                  delete
-                </button>
-              </div>
+          <div
+            className="max-w-full p-6 bg-white border rounded-lg dark:bg-gray-100 my-4 shadow-lg"
+            key={dep.ID}
+          >
+            <img
+              src="https://www.svgrepo.com/show/474803/department.svg"
+              alt="dep"
+              className="flex h-6 me-3 sm:h-7"
+            />
+
+            <h5
+              className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-gray-800"
+              value={dep.ID}
+            >
+              {dep.name}
+            </h5>
+
+            <p className="mb-3 font-normal text-gray-600 dark:text-gray-600">
+              {dep.description}
+            </p>
+            <div className="flex justify-end">
+              <button className="px-2 py-1 mx-0.5 text-xs font-bold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-600">
+                Edit
+              </button>
+              <button
+                className="px-2 py-1 mx-0.5 text-xs font-bold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-600"
+                onClick={handleDelete}
+                value={dep.ID}
+              >
+                Delete
+              </button>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
-    </div>
+      </div>
+    </>
   );
 }
 

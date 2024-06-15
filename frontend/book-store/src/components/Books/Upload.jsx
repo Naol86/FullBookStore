@@ -353,7 +353,8 @@ function Upload() {
 
             <input
               type="text"
-              name="description"
+              name="author"
+              id="author"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
               placeholder="author"
               value={formData.author}
