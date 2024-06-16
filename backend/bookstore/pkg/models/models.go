@@ -86,6 +86,19 @@ func CreateSchools(c *fiber.Ctx) error {
 	return c.JSON(school)
 }
 
+func GetSchool(c *fiber.Ctx) error {
+	var school School;
+	id := c.Params("school_id")
+	Id, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return c.Status(400).SendString("school id is not valid")
+	}
+	if err := DB.First(&school, Id).Error; err != nil {
+		return c.Status(404).SendString("school not exist!");
+	}
+	return c.JSON(school);
+}
+
 func GetAllSchools(c *fiber.Ctx) error {
 	var schools []School
 	DB.Find(&schools)
@@ -102,6 +115,46 @@ func DeleteSchool(c *fiber.Ctx) error {
 	DB.Where("id = ?", s_id).Delete(&school)
 	return c.JSON(school)
 }
+func UpdateSchool(c *fiber.Ctx) error {
+	var school School
+
+	// Get school_id from path parameters
+	id := c.Params("school_id")
+
+	// Parse school_id to uint64
+	Id, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return c.Status(400).SendString("Invalid school id")
+	}
+	
+	// Check if school with given Id exists
+	if err := DB.First(&school, Id).Error; err != nil {
+		return c.Status(404).SendString("School not found")
+	}
+
+	// Parse request body into new_school
+	var new_school School
+	if err := c.BodyParser(&new_school); err != nil {
+		return c.Status(400).SendString("Invalid input")
+	}
+
+	// Update fields if they are empty
+	if new_school.Name == "" {
+		new_school.Name = school.Name
+	}
+	if new_school.Description == "" {
+		new_school.Description = school.Description
+	}
+
+	// Save updated school to database
+	if err := DB.Model(&school).Updates(new_school).Error; err != nil {
+		return c.Status(500).SendString("Failed to update school")
+	}
+
+	// Return updated school as JSON response
+	return c.JSON(new_school)
+}
+
 
 
 // end school
@@ -243,7 +296,7 @@ func GetBooks(c *fiber.Ctx) error {
 	var books []Books
 	// DB.Order("RANDOM()").Limit(5).Find(&books)
 	// return c.JSON(books)
-	result := DB.Order("RAND()").Limit(10).Find(&books)
+	result := DB.Order("RAND()").Limit(15).Find(&books)
     if result.Error != nil {
         return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
             "error": "Failed to retrieve books",

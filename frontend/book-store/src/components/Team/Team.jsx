@@ -1,6 +1,6 @@
 function Team() {
   return (
-    <section className="py-24 bg-gray-200 shadow-lg">
+    <section className="py-24 bg-gray-200 shadow-lg rounded-xl">
       <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center flex-col lg:flex-row md:mt-20">
           <div className="w-full lg:w-1/2">

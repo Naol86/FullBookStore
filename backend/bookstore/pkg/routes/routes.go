@@ -10,8 +10,9 @@ func Routes(app *fiber.App) {
 	// school routes
 	app.Post("/schools", models.CreateSchools)
 	app.Get("/schools", models.GetAllSchools)
+	app.Get("/schools/:school_id", models.GetSchool)
+	app.Put("/schools/:school_id", models.UpdateSchool)
 	app.Delete("/schools/:school_id", models.DeleteSchool)
-	// app.Put("/schools", models.UpdateSchool)
 
 	// department routes
 	app.Post("/department/:school_id", models.CreateDepartment)

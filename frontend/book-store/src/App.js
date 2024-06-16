@@ -24,7 +24,7 @@ function App() {
           element={<RootLayout children={<Upload />} />}
         />
         <Route
-          path="/admin/create-school"
+          path="/admin/create-school/:school_id?"
           element={<RootLayout children={<School />} />}
         />
         <Route

@@ -13,15 +13,31 @@ function ShowBook({ book }) {
 
       <div className="flex flex-col justify-between flex-grow p-4 md:p-4">
         <div>
-          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-900">
+          <h1
+            className="text-xl font-bold text-gray-800 dark:text-gray-900"
+            style={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 2,
+              overflow: "hidden",
+            }}
+          >
             {book.name}
           </h1>
-          <p className="mt-2 text-md text-gray-700 dark:text-gray-800">
+          <p
+            className="mt-2 text-md text-gray-700 dark:text-gray-800"
+            style={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 4,
+              overflow: "hidden",
+            }}
+          >
             {book.description}
           </p>
         </div>
 
-        <div className="flex justify-between mt-3 item-center">
+        <div className="flex justify-between mt-3 items-center">
           <h1 className="text-lg font-bold text-gray-800 dark:text-gray-600 md:text-xl">
             {book.author}
           </h1>

@@ -1,15 +1,38 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function School() {
+  const { school_id } = useParams();
+  const api = process.env.REACT_APP_API_URL;
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const api = process.env.REACT_APP_API_URL;
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
-  function handleInputChange(e) {
+  useEffect(() => {
+    // Fetch school details only if school_id exists
+    if (school_id) {
+      const fetchSchool = async () => {
+        try {
+          const response = await fetch(`${api}/schools/${school_id}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch school data");
+          }
+          const data = await response.json();
+          setName(data.name);
+          setDescription(data.description);
+        } catch (error) {
+          // console.error("Error fetching school data:", error);
+        }
+      };
+      fetchSchool();
+    }
+  }, [api, school_id]);
+
+  const handleInputChange = (e) => {
     setName(e.target.value);
-  }
+  };
 
   const validate = () => {
     const newErrors = {};
@@ -20,6 +43,7 @@ function School() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(JSON.stringify({ name, description }));
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -27,28 +51,30 @@ function School() {
       return;
     }
     try {
-      const response = await fetch(`${api}/schools`, {
-        method: "POST",
+      const url = school_id ? `${api}/schools/${school_id}` : `${api}/schools`;
+      const method = school_id ? "PUT" : "POST";
+      const response = await fetch(url, {
+        method: method,
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name, description }),
       });
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Failed to submit school data");
       }
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
       setIsSubmitted(true);
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
+      // console.error("Error submitting school data:", error);
     }
   };
 
   return (
     <div className="container-md mx-auto max-w-lg shadow-lg m-5 p-5 rounded-lg">
       <h1 className="text-2xl font-bold text-gray-800 text-center">
-        Create school
+        {school_id ? "Edit School" : "Create School"}
       </h1>
       {isSubmitted && (
         <p className="text-green-600 font-bold text-lg">
@@ -90,7 +116,7 @@ function School() {
             type="text"
             name="description"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
-            placeholder="description"
+            placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
