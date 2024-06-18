@@ -32,7 +32,7 @@ function App() {
           element={<RootLayout children={<Department />} />}
         />
         <Route
-          path="/admin/create-course"
+          path="/admin/create-course/:course_id?"
           element={<RootLayout children={<Course />} />}
         />
 

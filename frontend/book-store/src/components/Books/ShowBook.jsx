@@ -11,14 +11,14 @@ function ShowBook({ book }) {
         }}
       ></div>
 
-      <div className="flex flex-col justify-between flex-grow p-4 md:p-4">
+      <div className="flex flex-col justify-between flex-grow p-2 sm:p-3 md:p-4">
         <div>
           <h1
             className="text-xl font-bold text-gray-800 dark:text-gray-900"
             style={{
               display: "-webkit-box",
               WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 2,
+              WebkitLineClamp: 1,
               overflow: "hidden",
             }}
           >
@@ -29,7 +29,7 @@ function ShowBook({ book }) {
             style={{
               display: "-webkit-box",
               WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 4,
+              WebkitLineClamp: 1,
               overflow: "hidden",
             }}
           >
@@ -37,22 +37,29 @@ function ShowBook({ book }) {
           </p>
         </div>
 
-        <div className="flex justify-between mt-3 items-center">
-          <h1 className="text-lg font-bold text-gray-800 dark:text-gray-600 md:text-xl">
+        <div className="flex justify-between items-center mt-3">
+          <h1
+            className="text-md font-bold text-gray-800 dark:text-gray-600 md:text-md truncate"
+            style={{
+              display: "block",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             {book.author}
           </h1>
-          <div className="">
-            <button className="px-2 py-1 mx-1 text-xs font-bold text-white uppercase transition-all duration-500 transform bg-gray-900 rounded dark:bg-gray-900 hover:bg-gray-800 dark:hover:bg-gray-600 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-600">
-              <a
-                href={book.file}
-                download={`${book.name}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Download
-              </a>
-            </button>
-          </div>
+
+          <button className="px-1 py-1 mx-0 md:mx-1 text-xs font-bold text-white uppercase transition-all duration-500 transform bg-gray-900 rounded dark:bg-gray-900 hover:bg-gray-800 dark:hover:bg-gray-600 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-600">
+            <a
+              href={book.file}
+              download={`${book.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download
+            </a>
+          </button>
         </div>
       </div>
     </div>

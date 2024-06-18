@@ -41,7 +41,10 @@ function UserLayout({ children }) {
       <ShowSchool school={school[0]} />
       <div className="flex flex-wrap w-full space-x-0 p-5 justify-center bg-[#47424250] my-2 shadow-lg rounded-xl">
         {book.map((bo, index) => (
-          <div key={index} className="w-1/2 sm:w-1/3 lg:w-1/4 xl:w-1/5 p-2">
+          <div
+            key={index}
+            className="w-1/2 max-[350px]:w-7/12 sm:w-1/3 lg:w-1/4 xl:w-1/5 p-2"
+          >
             <div className="h-full min-w-90">
               <ShowBook book={bo} />
             </div>

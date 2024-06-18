@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 function Course() {
   const api = process.env.REACT_APP_API_URL;
+  const { course_id } = useParams();
+
+  console.log(course_id);
 
   const [schools, setSchools] = useState({ id: 0, school: [] });
   const [department, setDepartment] = useState({ id: 0, departments: [] });

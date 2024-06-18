@@ -39,7 +39,7 @@ function NavBar() {
           >
             <img src="logo.svg" className="h-8" alt="Logo" />
             <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
-              E-Shule
+              Unisource
             </span>
           </Link>
           <div className="flex md:order-2">
