@@ -28,7 +28,7 @@ function App() {
           element={<RootLayout children={<School />} />}
         />
         <Route
-          path="/admin/create-department"
+          path="/admin/create-department/:department_id?"
           element={<RootLayout children={<Department />} />}
         />
         <Route

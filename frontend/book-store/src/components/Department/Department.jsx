@@ -1,40 +1,58 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function Department() {
-  const [id, setId] = useState(0);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const { department_id } = useParams();
+  const [department, setDepartment] = useState({
+    id: 0,
+    name: "",
+    description: "",
+  });
+
   const [schools, setSchools] = useState([]);
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const api = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    const fetchSchools = async () => {
-      try {
-        const response = await fetch(`${api}/schools`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch schools");
-        }
+    if (department_id) {
+      const fetchDepartment = async () => {
+        const response = await fetch(`${api}/department/${department_id}`);
         const data = await response.json();
-        setSchools(data);
-      } catch (error) {
-        console.error("Error fetching schools:", error);
-      }
-    };
+        setDepartment({ ...data, id: department_id });
+      };
+      fetchDepartment();
+    } else {
+      const fetchSchools = async () => {
+        try {
+          const response = await fetch(`${api}/schools`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch schools");
+          }
+          const data = await response.json();
+          setSchools(data);
+        } catch (error) {
+          console.error("Error fetching schools:", error);
+        }
+      };
 
-    fetchSchools();
-  }, [api]);
+      fetchSchools();
+    }
+  }, [api, department_id]);
 
-  const handleSchoolChange = (e) => {
-    setId(e.target.value);
+  const handleChange = (e) => {
+    setDepartment({ ...department, [e.target.name]: e.target.value });
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!name) newErrors.name = "Department name is required";
-    if (!id || id === "0") newErrors.school = "Please select a school";
-    if (!description) newErrors.description = "Description is required";
+    if (!department.name) newErrors.name = "Department name is required";
+    if (!department_id) {
+      if (!department.id || department.id === "0")
+        newErrors.school = "Please select a school";
+    }
+    if (!department.description)
+      newErrors.description = "Description is required";
     return newErrors;
   };
 
@@ -45,19 +63,19 @@ function Department() {
       setErrors(newErrors);
       setIsSubmitted(false); // Reset the submission status if there are errors
     } else {
-      // Clear the form or make the API call here
-      console.log("Name:", name);
-      console.log("School ID:", id);
-      console.log("Description:", description);
-      const response = await fetch(`${api}/department/${id}`, {
-        method: "POST",
+      const dataSend = {
+        name: department.name,
+        description: department.description,
+      };
+
+      const response = await fetch(`${api}/department/${department.id}`, {
+        method: `${department_id ? "PUT" : "POST"}`,
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ name, description }),
+        body: JSON.stringify(dataSend),
       });
-      setName("");
-      setDescription("");
+      setDepartment({ id: 0, name: "", description: "" });
       setErrors({});
       setIsSubmitted(true); // Set submission status to true
     }
@@ -74,35 +92,38 @@ function Department() {
         </p>
       )}
       <form onSubmit={handleSubmit} method="POST">
-        <div>
-          <label
-            htmlFor="selectedSchool"
-            className="block text-gray-700 text-lg font-bold mb-2"
-          >
-            Select a School
-          </label>
-          <select
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            name="selectedSchool"
-            id="selectedSchool"
-            value={id}
-            onChange={handleSchoolChange}
-          >
-            <option value="0">Select School</option>
-            {schools.map((school) => (
-              <option
-                key={school.ID}
-                value={school.ID}
-                className="text-base font-medium	 dark:text-gray-900 "
-              >
-                {school.name}
-              </option>
-            ))}
-          </select>
-          {errors.school && (
-            <p className="text-red-600 font-bold text-md">{errors.school}</p>
-          )}
-        </div>
+        {!department_id && (
+          <div>
+            <label
+              htmlFor="selectedSchool"
+              className="block text-gray-700 text-lg font-bold mb-2"
+            >
+              Select a School
+            </label>
+            <select
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              name="id"
+              id="selectedSchool"
+              value={department.id}
+              onChange={handleChange}
+            >
+              <option value="0">Select School</option>
+              {schools.map((school) => (
+                <option
+                  key={school.ID}
+                  value={school.ID}
+                  className="text-base font-medium	 dark:text-gray-900 "
+                >
+                  {school.name}
+                </option>
+              ))}
+            </select>
+            {errors.school && (
+              <p className="text-red-600 font-bold text-md">{errors.school}</p>
+            )}
+          </div>
+        )}
+
         <div className="my-4">
           <label
             className="block text-gray-700 text-lg font-bold mb-2"
@@ -116,8 +137,8 @@ function Department() {
             name="name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
             placeholder="School Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={department.name}
+            onChange={handleChange}
           />
 
           {errors.name && (
@@ -138,8 +159,8 @@ function Department() {
             name="description"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
             placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={department.description}
+            onChange={handleChange}
           />
 
           {errors.description && (
