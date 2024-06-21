@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import SUPABASE from "../supabase";
-import HashLoader from "react-spinners/HashLoader";
+import React, { useEffect, useState } from 'react';
+import SUPABASE from '../supabase';
+import HashLoader from 'react-spinners/HashLoader';
 
 function Upload() {
   const supabase = SUPABASE;
@@ -8,17 +8,17 @@ function Upload() {
     schools: [],
     departments: [],
     courses: [],
-    selectedSchool: "0",
-    selectedDepartment: "0",
-    selectedCourse: "0",
+    selectedSchool: '0',
+    selectedDepartment: '0',
+    selectedCourse: '0',
     file: null,
     image:
-      "https://cdn.pixabay.com/photo/2023/03/17/14/26/bear-7858736_960_720.jpg",
-    description: "",
-    author: "",
+      'https://cdn.pixabay.com/photo/2023/03/17/14/26/bear-7858736_960_720.jpg',
+    description: '',
+    author: '',
   });
-  const [message, setMessage] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
+  const [message, setMessage] = useState('');
+  const [fileUrl, setFileUrl] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -31,23 +31,23 @@ function Upload() {
         const data = await response.json();
         setFormData((prevData) => ({ ...prevData, schools: data }));
       } catch (error) {
-        console.error("Error fetching schools:", error);
+        console.error('Error fetching schools:', error);
       }
     };
     fetchSchools();
   }, [api]);
 
   useEffect(() => {
-    if (formData.selectedSchool !== "0") {
+    if (formData.selectedSchool !== '0') {
       const fetchDepartments = async () => {
         try {
           const response = await fetch(
-            `${api}/department/${formData.selectedSchool}`
+            `${api}/departments/${formData.selectedSchool}`,
           );
           const data = await response.json();
           setFormData((prevData) => ({ ...prevData, departments: data }));
         } catch (error) {
-          console.error("Error fetching departments:", error);
+          console.error('Error fetching departments:', error);
         }
       };
       fetchDepartments();
@@ -55,16 +55,16 @@ function Upload() {
   }, [formData.selectedSchool, api]);
 
   useEffect(() => {
-    if (formData.selectedDepartment !== "0") {
+    if (formData.selectedDepartment !== '0') {
       const fetchCourses = async () => {
         try {
           const response = await fetch(
-            `${api}/course/${formData.selectedDepartment}`
+            `${api}/course/${formData.selectedDepartment}`,
           );
           const data = await response.json();
           setFormData((prevData) => ({ ...prevData, courses: data }));
         } catch (error) {
-          console.error("Error fetching courses:", error);
+          console.error('Error fetching courses:', error);
         }
       };
       fetchCourses();
@@ -80,23 +80,23 @@ function Upload() {
     const newErrors = {};
     const description = e.target.description.value;
     const author = e.target.author.value;
-    if (formData.selectedSchool === "0") {
-      newErrors.school = "Please select a school";
+    if (formData.selectedSchool === '0') {
+      newErrors.school = 'Please select a school';
     }
-    if (formData.selectedDepartment === "0") {
-      newErrors.department = "Please select a department";
+    if (formData.selectedDepartment === '0') {
+      newErrors.department = 'Please select a department';
     }
-    if (formData.selectedCourse === "0") {
-      newErrors.course = "Please select a course";
+    if (formData.selectedCourse === '0') {
+      newErrors.course = 'Please select a course';
     }
     if (!formData.file) {
-      newErrors.file = "Please select a file";
+      newErrors.file = 'Please select a file';
     }
     if (!description) {
-      newErrors.description = "Please enter a description";
+      newErrors.description = 'Please enter a description';
     }
     if (!author) {
-      newErrors.author = "Please enter an author";
+      newErrors.author = 'Please enter an author';
     }
     return newErrors;
   };
@@ -113,16 +113,16 @@ function Upload() {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      const bucketName = "booksrote";
+      const bucketName = 'booksrote';
 
       const selectedSchool = formData.schools.find(
-        (school) => school.ID === parseInt(formData.selectedSchool)
+        (school) => school.ID === parseInt(formData.selectedSchool),
       );
       const selectedDepartment = formData.departments.find(
-        (dep) => dep.ID === parseInt(formData.selectedDepartment)
+        (dep) => dep.ID === parseInt(formData.selectedDepartment),
       );
       const selectedCourse = formData.courses.find(
-        (course) => course.ID === parseInt(formData.selectedCourse)
+        (course) => course.ID === parseInt(formData.selectedCourse),
       );
 
       if (
@@ -131,7 +131,7 @@ function Upload() {
         !selectedCourse ||
         !formData.file
       ) {
-        setMessage("Please fill out all fields and select a file.");
+        setMessage('Please fill out all fields and select a file.');
         return;
       }
 
@@ -163,9 +163,9 @@ function Upload() {
           const response = await fetch(
             `${api}/books/${formData.selectedCourse}`,
             {
-              method: "POST",
+              method: 'POST',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
               body: JSON.stringify({
                 name: formData.file.name,
@@ -174,15 +174,15 @@ function Upload() {
                 author: formData.author,
                 image: formData.image,
               }),
-            }
+            },
           );
 
           if (!response.ok) {
-            throw new Error("Failed to submit book data.");
+            throw new Error('Failed to submit book data.');
           }
 
           const data = await response.json();
-          setMessage("File uploaded successfully!");
+          setMessage('File uploaded successfully!');
           console.log(data);
         };
         postData();
@@ -198,72 +198,72 @@ function Upload() {
       {loading && (
         <div
           className={`fixed inset-0 flex items-center justify-center ${
-            loading ? "bg-gray-100 bg-opacity-50" : ""
+            loading ? 'bg-gray-100 bg-opacity-50' : ''
           }`}
         >
           <div>
-            <HashLoader color="#101716" loading={loading} size={100} />
-            <h1 className="text-2xl font-bold text-gray-800">uploading...</h1>
+            <HashLoader color='#101716' loading={loading} size={100} />
+            <h1 className='text-2xl font-bold text-gray-800'>uploading...</h1>
           </div>
         </div>
       )}
       <div
         className={`container-md mx-auto max-w-lg shadow-lg m-5 p-5 rounded-lg ${
-          loading ? "blur-md" : ""
+          loading ? 'blur-md' : ''
         }`}
       >
-        <h1 className="text-2xl font-bold text-gray-800 text-center">
+        <h1 className='text-2xl font-bold text-gray-800 text-center'>
           Upload Book
         </h1>
         {message && (
-          <p className="text-green-600 font-bold text-lg">{message}</p>
+          <p className='text-green-600 font-bold text-lg'>{message}</p>
         )}
-        <form onSubmit={handleSubmit} method="POST">
+        <form onSubmit={handleSubmit} method='POST'>
           <div>
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="countries"
+              className='block text-gray-700 text-lg font-bold mb-2'
+              htmlFor='countries'
             >
               Select a School
             </label>
             <select
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="selectedSchool"
-              id="selectedSchool"
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              name='selectedSchool'
+              id='selectedSchool'
               value={formData.selectedSchool}
               onChange={handleChange}
             >
-              <option value="0">Select School</option>
+              <option value='0'>Select School</option>
               {formData.schools.map((school) => (
                 <option
                   key={school.ID}
                   value={school.ID}
-                  className="text-base font-medium	 dark:text-gray-900 "
+                  className='text-base font-medium	 dark:text-gray-900 '
                 >
                   {school.name}
                 </option>
               ))}
             </select>
             {errors.school && (
-              <p className="text-red-600 font-bold text-lg">{errors.school}</p>
+              <p className='text-red-600 font-bold text-lg'>{errors.school}</p>
             )}
           </div>
 
           <div>
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="countries"
+              className='block text-gray-700 text-lg font-bold mb-2'
+              htmlFor='countries'
             >
               Select a Department
             </label>
             <select
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="selectedDepartment"
-              id="selectedDepartment"
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              name='selectedDepartment'
+              id='selectedDepartment'
               value={formData.selectedDepartment}
               onChange={handleChange}
             >
-              <option value="0">Select Department</option>
+              <option value='0'>Select Department</option>
               {formData.departments.map((department) => (
                 <option key={department.ID} value={department.ID}>
                   {department.name}
@@ -271,7 +271,7 @@ function Upload() {
               ))}
             </select>
             {errors.department && (
-              <p className="text-red-600 font-bold text-lg">
+              <p className='text-red-600 font-bold text-lg'>
                 {errors.department}
               </p>
             )}
@@ -279,19 +279,19 @@ function Upload() {
 
           <div>
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="countries"
+              className='block text-gray-700 text-lg font-bold mb-2'
+              htmlFor='countries'
             >
               Select a Course
             </label>
             <select
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              name="selectedCourse"
-              id="selectedCourse"
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-800 dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              name='selectedCourse'
+              id='selectedCourse'
               value={formData.selectedCourse}
               onChange={handleChange}
             >
-              <option value="0">Select Course</option>
+              <option value='0'>Select Course</option>
               {formData.courses.map((course) => (
                 <option key={course.ID} value={course.ID}>
                   {course.name}
@@ -299,97 +299,97 @@ function Upload() {
               ))}
             </select>
             {errors.course && (
-              <p className="text-red-600 font-bold text-lg">{errors.course}</p>
+              <p className='text-red-600 font-bold text-lg'>{errors.course}</p>
             )}
           </div>
 
           <div>
-            <div className="">
+            <div className=''>
               <label
-                className="block text-gray-700 text-lg font-bold mb-2"
-                htmlFor="file"
+                className='block text-gray-700 text-lg font-bold mb-2'
+                htmlFor='file'
               >
                 Upload file
               </label>
               <input
-                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400"
-                id="file_input"
-                type="file"
-                name="file"
+                className='block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-50 dark:border-gray-600 dark:placeholder-gray-400'
+                id='file_input'
+                type='file'
+                name='file'
                 onChange={handleFileChange}
               />
             </div>
             {errors.file && (
-              <p className="text-red-600 font-bold text-lg">{errors.file}</p>
+              <p className='text-red-600 font-bold text-lg'>{errors.file}</p>
             )}
           </div>
 
-          <div className="my-4">
+          <div className='my-4'>
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="description"
+              className='block text-gray-700 text-lg font-bold mb-2'
+              htmlFor='description'
             >
               Description
             </label>
             <input
-              type="text"
-              name="description"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
-              placeholder="description"
+              type='text'
+              name='description'
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 '
+              placeholder='description'
               onChange={handleChange}
             />
 
             {errors.description && (
-              <p className="text-red-600 font-bold text-lg">
+              <p className='text-red-600 font-bold text-lg'>
                 {errors.description}
               </p>
             )}
           </div>
 
-          <div className="my-4">
+          <div className='my-4'>
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="author"
+              className='block text-gray-700 text-lg font-bold mb-2'
+              htmlFor='author'
             >
               Author
             </label>
 
             <input
-              type="text"
-              name="author"
-              id="author"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
-              placeholder="author"
+              type='text'
+              name='author'
+              id='author'
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 '
+              placeholder='author'
               value={formData.author}
               onChange={handleChange}
             />
             {errors.author && (
-              <p className="text-red-600 font-bold text-lg">{errors.author}</p>
+              <p className='text-red-600 font-bold text-lg'>{errors.author}</p>
             )}
           </div>
 
-          <div className="my-4">
+          <div className='my-4'>
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="image"
+              className='block text-gray-700 text-lg font-bold mb-2'
+              htmlFor='image'
             >
               Image URL
             </label>
 
             <input
-              type="text"
-              name="image"
-              id="image"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 "
-              placeholder="author"
+              type='text'
+              name='image'
+              id='image'
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg  block w-full p-2.5 dark:bg-gray-100 dark:border-gray-700 dark:placeholder-gray-600 dark:text-gray-800 '
+              placeholder='author'
               value={formData.image}
               onChange={handleChange}
             />
           </div>
 
           <button
-            type="submit"
-            className="w-full px-2 py-1 mx-0.5 text-md font-bold text-white  transition-colors duration-300 transform bg-gray-800 rounded dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-600"
+            type='submit'
+            className='w-full px-2 py-1 mx-0.5 text-md font-bold text-white  transition-colors duration-300 transform bg-gray-800 rounded dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-600'
           >
             Upload
           </button>

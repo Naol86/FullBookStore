@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
-import NavBar from "../NavBar/NavBar";
-import ShowSchool from "../School/ShowSchool";
-import Team from "../Team/Team";
-import ShowBook from "../Books/ShowBook";
-import BookCard from "../Books/BookCard";
-import ListBooks from "../Books/ListBooks";
-import Footer from "../Footer/Footer";
+import { useEffect, useState } from 'react';
+import NavBar from '../NavBar/NavBar';
+import ShowSchool from '../School/ShowSchool';
+import Team from '../Team/Team';
+import ShowBook from '../Books/ShowBook';
+import BookCard from '../Books/BookCard';
+import ListBooks from '../Books/ListBooks';
+import Footer from '../Footer/Footer';
+import SwiperSchool from '../SwiperSchool/SwiperSchool';
 
 function UserLayout({ children }) {
   const [school, setSchool] = useState([]);
@@ -31,28 +32,29 @@ function UserLayout({ children }) {
   }, [api]);
 
   return (
-    <div className="">
+    <div className=''>
       <NavBar />
       {/* <div className="justify-around">
         {school.map((school) => (
           <ShowSchool key={school.ID} school={school} />
         ))}
       </div> */}
-      <ShowSchool school={school[0]} />
-      <div className="flex flex-wrap w-full space-x-0 p-5 justify-center bg-[#47424250] my-2 shadow-lg rounded-xl">
+      <SwiperSchool />
+      {/* <ShowSchool school={school[0]} /> */}
+      <div className='flex flex-wrap w-full space-x-0 p-5 justify-center bg-[#47424250] my-2 shadow-lg rounded-xl'>
         {book.map((bo, index) => (
           <div
             key={index}
-            className="w-1/2 max-[350px]:w-7/12 sm:w-1/3 lg:w-1/4 xl:w-1/5 p-2"
+            className='w-1/2 max-[350px]:w-7/12 sm:w-1/3 lg:w-1/4 xl:w-1/5 p-2'
           >
-            <div className="h-full min-w-90">
+            <div className='h-full min-w-90'>
               <ShowBook book={bo} />
             </div>
           </div>
         ))}
       </div>
       <Team />
-      <div className="mt-4">
+      <div className='mt-4'>
         {Array.from({ length: 20 }).map((_, i) => (
           <h1 key={i}>hello</h1>
         ))}
