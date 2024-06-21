@@ -58,7 +58,8 @@ function App() {
           element={<RootLayout children={<ListDepartment />} />}
         />
 
-        <Route path="/" element={<UserLayout />} />
+        <Route path="/" element={<RootLayout children={<ListBooks />} />} />
+        {/* <Route path="/" element={<UserLayout />} /> */}
 
         <Route path="*" element={<NotFound />} />
       </Routes>
