@@ -14,6 +14,9 @@ import ListSchool from './components/School/ListSchool';
 import ListDepartment from './components/Department/ListDepartment';
 import './App.css';
 import UserLayout from './components/UserLayout/UserLayout';
+import SwiperSchool from './components/SwiperSchool/SwiperSchool';
+import BookLists from './components/Books/BookLists';
+import Team from './components/Team/Team';
 
 function App() {
   return (
@@ -59,7 +62,18 @@ function App() {
         />
 
         {/* <Route path="/" element={<RootLayout children={<ListBooks />} />} /> */}
-        <Route path='/' element={<UserLayout />} />
+        <Route
+          path='/'
+          element={
+            <UserLayout
+              elements={[<SwiperSchool />, <BookLists />, <Team />]}
+            />
+          }
+        />
+        <Route
+          path='/books'
+          element={<UserLayout elements={[<BookLists />]} />}
+        />
 
         <Route path='*' element={<NotFound />} />
       </Routes>
