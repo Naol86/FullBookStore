@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function NavBar() {
   const [dropDown, setDropDown] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const [dropCategory, setDropCategory] = useState(false);
   const [schools, setSchools] = useState([]);
+  const [search, setSearch] = useState('');
+  const navigate = useNavigate();
   const api = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -51,6 +53,13 @@ function NavBar() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const hadleSearch = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      navigate(`/books?search=${encodeURIComponent(search)}`);
+    }
+  };
 
   return (
     <div>
@@ -118,6 +127,9 @@ function NavBar() {
                 id='search-navbar'
                 className='block w-10/12 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 placeholder='Search...'
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={hadleSearch}
               />
             </div>
             <button
