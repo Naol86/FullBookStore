@@ -71,7 +71,7 @@ function App() {
           }
         />
         <Route
-          path='/books/:search?'
+          path='/books/'
           element={<UserLayout elements={[<BookLists />]} />}
         />
 

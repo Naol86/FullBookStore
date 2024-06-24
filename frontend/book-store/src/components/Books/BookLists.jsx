@@ -3,7 +3,8 @@ import ShowBook from './ShowBook';
 import { useLocation, useParams } from 'react-router-dom';
 
 function BookLists() {
-  const { search } = useParams();
+  const location = useLocation();
+  const search = location.search.split('=')[1];
   const [books, setBooks] = useState([]);
   const [schools, setSchools] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -15,9 +16,14 @@ function BookLists() {
     search: search ? search : '',
   }); // Filter state to be passed to the API request
   const api = process.env.REACT_APP_API_URL;
-  const location = useLocation();
 
-  console.log(search, 'search is');
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const search = searchParams.get('search') || '';
+    setFilter((prevFilter) => ({
+      search,
+    }));
+  }, [location.search]);
 
   useEffect(() => {
     const fetchSchools = async () => {
