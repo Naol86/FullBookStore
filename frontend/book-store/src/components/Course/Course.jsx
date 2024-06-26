@@ -5,6 +5,7 @@ function Course() {
   const api = process.env.REACT_APP_API_URL;
   const { course_id } = useParams();
 
+  const [data, setData] = useState()
   const [schools, setSchools] = useState({ id: 0, school: [] });
   const [department, setDepartment] = useState({ id: 0, departments: [] });
   const [course, setCourse] = useState({
@@ -16,40 +17,22 @@ function Course() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const fetchSchool = async () => {
-      const response = await fetch(`${api}/schools`);
-      const data = await response.json();
-      setSchools((prevSchools) => ({ ...prevSchools, school: data }));
-    };
-    fetchSchool();
+    fetch(`${api}/categories/`)
+      .then(res => res.json())
+      .then(response => {
+        const data = response
+        setData(response)
+        // Set the schools state with the top-level categories
+        setSchools(data.filter(category => category.parent === null));
+        // Set departments and courses (this can be optimized)
+        setDepartment(data.filter(category => category.parent !== null && data.find(parent => parent.id === category.parent && parent.parent === null)));
+        setCourse(data.filter(category => category.parent !== null && !data.find(parent => parent.id === category.parent && parent.parent === null)));
+      })
+      .catch(error => {
+        console.error('There was an error fetching the data!', error);
+      });
   }, [api]);
 
-  useEffect(() => {
-    if (schools.id === 0) return;
-    const fetchDepartment = async () => {
-      const res = await fetch(`${api}/departments/${schools.id}`);
-      const data = await res.json();
-      setDepartment((prevDepartment) => ({
-        ...prevDepartment,
-        departments: data,
-      }));
-    };
-    fetchDepartment();
-  }, [schools, api]);
-
-  useEffect(() => {
-    if (!course_id) return;
-    const fetchCourse = async () => {
-      const response = await fetch(`${api}/courses/${course_id}`);
-      const data = await response.json();
-      setCourse({
-        name: data.name,
-        description: data.description,
-        code: data.code,
-      });
-    };
-    fetchCourse();
-  }, [api, course_id]);
 
   const validate = () => {
     let errors = {};
